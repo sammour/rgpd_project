@@ -12,9 +12,11 @@ use Cake\Auth\DefaultPasswordHasher;
  * @property string|null $password
  * @property string|null $role
  * @property \Cake\I18n\FrozenTime|null $created
- * @property string $passkey
+ * @property string|null $passkey
  * @property \Cake\I18n\FrozenTime|null $timeout
  * @property \Cake\I18n\FrozenTime|null $modified
+ *
+ * @property \App\Model\Entity\Connect[] $connects
  */
 class User extends Entity
 {
@@ -35,7 +37,8 @@ class User extends Entity
         'created' => true,
         'passkey' => true,
         'timeout' => true,
-        'modified' => true
+        'modified' => true,
+        'connects' => true
     ];
 
     /**
@@ -55,5 +58,4 @@ class User extends Entity
             return $hasher->hash($value);
         }
     }
-
 }

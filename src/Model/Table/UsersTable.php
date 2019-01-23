@@ -5,10 +5,11 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Datasource\ConnectionManager;
 
 /**
  * Users Model
+ *
+ * @property |\Cake\ORM\Association\HasMany $Connects
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
@@ -39,6 +40,10 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->hasMany('Connects', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
     /**
@@ -71,7 +76,6 @@ class UsersTable extends Table
         $validator
             ->scalar('passkey')
             ->maxLength('passkey', 255)
-            ->requirePresence('passkey', 'create')
             ->allowEmptyString('passkey');
 
         $validator
@@ -94,6 +98,7 @@ class UsersTable extends Table
 
         return $rules;
     }
+
 
     protected function getByRole($role) {
         $connexion = $this->instantiateConnexion();
