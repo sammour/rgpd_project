@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Entity\Connect;
 use Cake\ORM\TableRegistry;
 use Cake\View\Helper\FormHelper;
 use Cake\Event\Event;
@@ -149,7 +150,21 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl());
+
+                $logs = TableRegistry::get('Connects');
+                $new_log = $logs->newEntity();
+
+                $new_log->set('connexion_time', time());
+                $new_log->set('user_id', $this->Auth->user('id'));
+
+                if ($logs->save($new_log)) {
+                    $this->Flash->success('Connexion réussie et loguée');
+                    return $this->redirect($this->Auth->redirectUrl());
+                }
+                else {
+                    $this->Flash->error('Connexion réussie mais pas loguée' . $new_log->get('connexion_time') . $new_log->get('user_id'));
+                    return $this->redirect($this->Auth->redirectUrl());
+                }
             }
             $this->Flash->error(__('Invalid username or password, try again'));
         }
@@ -162,11 +177,7 @@ class UsersController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($this->isAction('password') || ($this->isAction('reset'))){
-            return true;
-            }
-
-            return $user != null;
+        return $user != null;
     }
 
     public function password()
