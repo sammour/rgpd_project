@@ -33,6 +33,8 @@ class ErrorController extends AppController
         $this->loadComponent('RequestHandler', [
             'enableBeforeRedirect' => false,
         ]);
+
+        $this->loadComponent('Auth');
     }
 
     /**

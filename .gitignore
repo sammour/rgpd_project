@@ -39,3 +39,10 @@ nbproject/*
 # Sass preprocessor
 .sass-cache/
 .idea
+
+##Stuff##
+.editorconfig
+.gitattributes
+.github/
+.htaccess
+.travis.yml

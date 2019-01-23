@@ -7,8 +7,9 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
+        <?php if ($can_modify) : ?>
         <li><?= $this->Html->link(__('Modifier l\'utilisateur'), ['action' => 'edit', $user->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Supprimer l\'utilisateur'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> </li>
+        <?php endif; /*<li><?= $this->Form->postLink(__('Supprimer l\'utilisateur'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> </li> */?>
         <li><?= $this->Html->link(__('Liste des utilisateurs'), ['action' => 'all']) ?> </li>
     </ul>
 </nav>

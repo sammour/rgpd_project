@@ -38,7 +38,7 @@ $title = 'Connexion';
     <?= $this->Html->css('home.css') ?>
 </head>
 <body class="home">
-<?php if (!$userData) :?>
+<?php if (!isset($user)) :?>
 <div class="users form">
     <?= $this->Flash->render() ?>
     <?= $this->Form->create(new \App\Model\Entity\User(), ['url' => '/users/login']) ?>
@@ -51,10 +51,18 @@ $title = 'Connexion';
     <?= $this->Form->end(); ?>
 
 </div>
+
+<div class="connection-links">
 <?= $this->Html->link(
     'Je n\'ai pas de compte',
     'users/add'
 );?>
+    <?= $this->Html->link(
+        'Mot de passe oublié',
+        'users/password'
+    );?>
+</div>
+
 <?php else : ?>
     <?php
     /**
@@ -65,8 +73,8 @@ $title = 'Connexion';
     <nav class="large-3 medium-4 columns" id="actions-sidebar">
         <ul class="side-nav">
             <li class="heading"><?= __('Actions') ?></li>
-            <li><?= $this->Html->link(__('Modifier mes informations'), '/users/edit/'. $userData->id) ?> </li>
-            <li><?= $this->Form->postLink(__('Se désinscrire'), '/users/delete/'. $userData->id, ['confirm' => __('Voulez vous vraiment vous désinscrire ?', $userData->id)]) ?> </li>
+            <li><?= $this->Html->link(__('Modifier mes informations'), '/users/edit/'. $user->id) ?> </li>
+            <li><?= $this->Form->postLink(__('Se désinscrire'), '/users/delete/'. $user->id, ['confirm' => __('Voulez vous vraiment vous désinscrire ?', $user->id)]) ?> </li>
         </ul>
     </nav>
     <div class="users view large-9 medium-8 columns content">
@@ -74,15 +82,15 @@ $title = 'Connexion';
         <table class="vertical-table">
             <tr>
                 <th scope="row"><?= __('Email') ?></th>
-                <td><?= h($userData->username) ?></td>
+                <td><?= h($user->username) ?></td>
             </tr>
             <tr>
                 <th scope="row"><?= __('Password') ?></th>
-                <td><?= h($userData->password) ?></td>
+                <td><?= h($user->password) ?></td>
             </tr>
             <tr>
                 <th scope="row"><?= __('Id') ?></th>
-                <td><?= $this->Number->format($userData->id) ?></td>
+                <td><?= $this->Number->format($user->id) ?></td>
             </tr>
         </table>
     </div>

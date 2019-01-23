@@ -27,10 +27,12 @@
                 <td><?= $this->Number->format($user->id) ?></td>
                 <td><?= h($user->username) ?></td>
                 <td><?= h($user->password) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                <td class="actions list-actions" style="height: <?php echo ($user_id !=  $user->id ? '40px' : '100px'); ?>">
+                    <?= $this->Html->link(__('Voir le profil'), ['action' => 'view', $user->id]) ?>
+                    <?php if ($user_id == $user->id) : ?>
+                    <?= $this->Html->link(__('Modifier mon pofil'), ['action' => 'edit', $user->id]) ?>
+                    <?= $this->Form->postLink(__('Je veux disparaître'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>

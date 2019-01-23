@@ -9,9 +9,8 @@
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Modifier mes informations'), ['action' => 'edit', $user->id]) ?> </li>
         <li><?= $this->Form->postLink(__('Se désinscrire'), ['action' => 'delete', $user->id], ['confirm' => __('Voulez vous vraiment vous désinscrire ?', $user->id)]) ?> </li>
-        <?php if ($user->role == 'admin') :?>
-            <li><?= $this->Html->link(__('Liste des utilisateurs'), ['action' => 'all']) ?> </li>
-        <?php endif; ?>
+        <li><?= $this->Html->link(__('Liste des utilisateurs'), ['action' => 'all']) ?> </li>
+
     </ul>
 </nav>
 <div class="users view large-9 medium-8 columns content">

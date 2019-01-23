@@ -18,6 +18,10 @@ use Cake\Core\Configure;
 use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
+use Cake\ORM\TableRegistry;
+use Cake\View\Helper\FormHelper;
+use Cake\Event\Event;
+
 
 /**
  * Static content controller
@@ -56,6 +60,14 @@ class PagesController extends AppController
             $subpage = $path[1];
         }
         $this->set(compact('page', 'subpage'));
+
+
+        if ($this->Auth->user())
+        {
+            $user = $this->Users->get($this->Auth->user('id'));
+            $this->set('user', $user);
+        }
+
 
         try {
             $this->render(implode('/', $path));

@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * Users Model
@@ -82,5 +83,26 @@ class UsersTable extends Table
         $rules->add($rules->isUnique(['username']));
 
         return $rules;
+    }
+
+
+    protected function getByRole($role) {
+        $connexion = $this->instantiateConnexion();
+        $userList = $connexion
+            ->newQuery()
+            ->select('*')
+            ->from('users')
+            ->where(['role >' => $role, ['role' => 'string']])
+            ->order(['id' => 'DESC'])
+            ->execute()
+            ->fetchAll('assoc');
+        return $userList;
+    }
+
+
+
+    protected function instantiateConnexion(){
+        $connexion = ConnectionManager::get('default');
+        return $connexion;
     }
 }

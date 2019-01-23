@@ -53,4 +53,9 @@ class User extends Entity
         }
     }
 
+    protected function getByRole($role) {
+        $userList = $this->find('all', ['conditions' => ['role' => $role]]);
+        return $userList;
+    }
+
 }

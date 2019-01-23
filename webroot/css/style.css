@@ -41,6 +41,12 @@ legend {
     max-width: 80rem;
 }
 
+.actions.list-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
 .actions.columns {
     margin-top:1rem;
     border-left: 5px solid #15848F;
