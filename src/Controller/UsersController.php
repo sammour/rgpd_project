@@ -140,7 +140,7 @@ class UsersController extends AppController
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow(['add', 'logout']);
+        $this->Auth->allow(['add', 'login', 'password', 'reset']);
     }
 
     public function login()
@@ -162,7 +162,11 @@ class UsersController extends AppController
 
     public function isAuthorized($user)
     {
-        return $user != null;
+        if ($this->isAction('password') || ($this->isAction('reset'))){
+            return true;
+            }
+
+            return $user != null;
     }
 
     public function password()
@@ -191,10 +195,11 @@ class UsersController extends AppController
             $query = $this->Users->find('all', ['conditions' => ['passkey' => $passkey, 'timeout >' => time()]]);
             $user = $query->first();
             if ($user) {
-                if (!empty($this->request->data)) {
+                if (!empty($this->request->getData())) {
                     // Clear passkey and timeout
                     $this->request->data['passkey'] = null;
                     $this->request->data['timeout'] = null;
+                    $this->request->data['modified'] = time();
                     $user = $this->Users->patchEntity($user, $this->request->data);
                     if ($this->Users->save($user)) {
                         $this->Flash->set(__('Votre mot de passe est enregistré.'));

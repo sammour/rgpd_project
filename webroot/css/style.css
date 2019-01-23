@@ -41,6 +41,14 @@ legend {
     max-width: 80rem;
 }
 
+.connection-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100px;
+    padding: 0 50px;
+}
+
 .actions.list-actions {
     display: flex;
     flex-direction: column;

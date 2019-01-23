@@ -1,4 +1,5 @@
-<?php $this->assign('title', 'Reset Password'); ?>
+<div class="home">
+    <?php $this->assign('title', 'Reset Password'); ?>
 <div class="users form large-9 medium-8 columns content">
     <?php echo $this->Form->create($user) ?>
     <fieldset>
@@ -11,4 +12,5 @@
     </fieldset>
     <?php echo $this->Form->button(__('Submit')); ?>
     <?php echo $this->Form->end(); ?>
+</div>
 </div>

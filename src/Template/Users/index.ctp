@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\User $user
  */
 ?>
+<div class="home">
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
@@ -29,4 +30,5 @@
             <td><?= $this->Number->format($user->id) ?></td>
         </tr>
     </table>
+</div>
 </div>

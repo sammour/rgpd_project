@@ -1,8 +1,8 @@
 <?php
 namespace App\Model\Entity;
 
-use Cake\Auth\DefaultPasswordHasher;
 use Cake\ORM\Entity;
+use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * User Entity
@@ -12,6 +12,8 @@ use Cake\ORM\Entity;
  * @property string|null $password
  * @property string|null $role
  * @property \Cake\I18n\FrozenTime|null $created
+ * @property string $passkey
+ * @property \Cake\I18n\FrozenTime|null $timeout
  * @property \Cake\I18n\FrozenTime|null $modified
  */
 class User extends Entity
@@ -31,6 +33,8 @@ class User extends Entity
         'password' => true,
         'role' => true,
         'created' => true,
+        'passkey' => true,
+        'timeout' => true,
         'modified' => true
     ];
 
@@ -43,7 +47,6 @@ class User extends Entity
         'password'
     ];
 
-
     protected function _setPassword($value)
     {
         if (strlen($value)) {
@@ -51,11 +54,6 @@ class User extends Entity
 
             return $hasher->hash($value);
         }
-    }
-
-    protected function getByRole($role) {
-        $userList = $this->find('all', ['conditions' => ['role' => $role]]);
-        return $userList;
     }
 
 }

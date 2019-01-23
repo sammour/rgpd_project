@@ -4,8 +4,8 @@
  * @var \App\Model\Entity\User $user
  */
 ?>
-<div>
-<div class="users form">
+<div class="home">
+<div class="users form ">
     <?= $this->Form->create($user) ?>
     <fieldset>
         <legend><?= __('Ajouter un utilisateur') ?></legend>
@@ -17,4 +17,5 @@
     </fieldset>
     <?= $this->Form->button(__('Ajouter')); ?>
     <?= $this->Form->end() ?>
+</div>
 </div>

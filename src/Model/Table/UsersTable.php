@@ -68,6 +68,16 @@ class UsersTable extends Table
             ->maxLength('role', 20)
             ->allowEmptyString('role');
 
+        $validator
+            ->scalar('passkey')
+            ->maxLength('passkey', 255)
+            ->requirePresence('passkey', 'create')
+            ->allowEmptyString('passkey');
+
+        $validator
+            ->dateTime('timeout')
+            ->allowEmptyDateTime('timeout');
+
         return $validator;
     }
 
@@ -84,7 +94,6 @@ class UsersTable extends Table
 
         return $rules;
     }
-
 
     protected function getByRole($role) {
         $connexion = $this->instantiateConnexion();

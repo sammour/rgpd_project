@@ -10,12 +10,12 @@
     font-style: normal;
 }
 
-.home {
+body {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     line-height: 27px;
     color: #404041;
-    margin: 10px 5%;
+    margin: 0 5%;
 }
 
 a {

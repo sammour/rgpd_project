@@ -1,4 +1,4 @@
-
+<div class="home">
 <div class="users form">
     <?= $this->Flash->render() ?>
     <?= $this->Form->create() ?>
@@ -11,7 +11,15 @@
     <?= $this->Form->end() ?>
 </div>
 
-<?= $this->Html->link(
-    'Je n\'ai pas de compte',
-    'users/add'
-);?></div>
+
+<div class="connection-links">
+    <?= $this->Html->link(
+        'Je n\'ai pas de compte',
+        'users/add'
+    );?>
+    <?= $this->Html->link(
+        'Mot de passe oublié',
+        'users/password'
+    );?>
+</div>
+</div>
