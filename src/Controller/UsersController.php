@@ -33,6 +33,9 @@ class UsersController extends AppController
 
     }
 
+    /**
+     *
+     */
     public function all()
     {
 
@@ -124,8 +127,16 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
+        $logs = TableRegistry::get('Connects');
+        $logs_to_delete = $logs->find('all')->where(['user_id' => $id]);
+        foreach ($logs_to_delete as $log)
+        {
+            $logs->delete($log);
+        }
+        $this->Auth->logout();
         if ($this->Users->delete($user)) {
-            $this->Flash->success(__('The user has been deleted.'));
+            $this->Flash->success(__('Vous avez bien supprimé votre compte et toutes les données stockées vous concernant.'));
+            $this->redirect('/');
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
@@ -134,7 +145,10 @@ class UsersController extends AppController
     }
 
 
-
+    /**
+     * @param Event $event
+     * @return \Cake\Http\Response|void|null
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -144,6 +158,9 @@ class UsersController extends AppController
         $this->Auth->allow(['add', 'login', 'password', 'reset']);
     }
 
+    /**
+     * @return \Cake\Http\Response|null
+     */
     public function login()
     {
         if ($this->request->is('post')) {
@@ -170,16 +187,26 @@ class UsersController extends AppController
         }
     }
 
+    /**
+     * @return \Cake\Http\Response|null
+     */
     public function logout()
     {
         return $this->redirect($this->Auth->logout());
     }
 
+    /**
+     * @param $user
+     * @return bool
+     */
     public function isAuthorized($user)
     {
         return $user != null;
     }
 
+    /**
+     *
+     */
     public function password()
     {
         if ($this->request->is('post')) {
@@ -201,6 +228,10 @@ class UsersController extends AppController
         }
     }
 
+    /**
+     * @param null $passkey
+     * @return \Cake\Http\Response|null
+     */
     public function reset($passkey = null) {
         if ($passkey) {
             $query = $this->Users->find('all', ['conditions' => ['passkey' => $passkey, 'timeout >' => time()]]);
