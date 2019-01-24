@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class Initial extends AbstractMigration
+class Install extends AbstractMigration
 {
 
     public $autoId = false;
@@ -101,6 +101,12 @@ class Initial extends AbstractMigration
                 'limit' => null,
                 'null' => true,
             ])
+            ->addIndex(
+                [
+                    'username',
+                ],
+                ['unique' => true]
+            )
             ->create();
 
         $this->table('connects')
