@@ -24,7 +24,7 @@ Puis :
 
 ```bash
 ##Création des tables##
-bin/cake migration migrate
+bin/cake migrations migrate
 ##To start the build-in webserver##
 bin/cake server -p 8766
 ```
