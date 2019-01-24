@@ -169,7 +169,7 @@ class UsersController extends AppController
                 $this->saveLog($this->Auth->user('id'), 1);
                 return $this->redirect($this->Auth->redirectUrl());
             }
-            $this->Flash->error(__('Invalid username or password, try again'));
+            $this->Flash->error(__('Mauvais combo email/mot de passe'));
         }
     }
 
