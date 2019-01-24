@@ -8,7 +8,7 @@ Pour installer le projet :
 
 cloner le dépot :
 ```bash
-git clone https://github.com/sammour/rgpd_project.git sambmour_rgpd_project
+git clone https://github.com/sammour/rgpd_project.git samson_rgpd_project
 ```
 
 Installer avec composer :
