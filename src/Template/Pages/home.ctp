@@ -75,6 +75,7 @@ $title = 'Connexion';
             <li class="heading"><?= __('Actions') ?></li>
             <li><?= $this->Html->link(__('Modifier mes informations'), '/users/edit/'. $user->id) ?> </li>
             <li><?= $this->Form->postLink(__('Se désinscrire'), '/users/delete/'. $user->id, ['confirm' => __('Voulez vous vraiment vous désinscrire ?', $user->id)]) ?> </li>
+            <li><?= $this->Html->link(__('Liste des utilisateurs'), ['action' => 'all']) ?> </li>
         </ul>
     </nav>
     <div class="users view large-9 medium-8 columns content">

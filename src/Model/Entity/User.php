@@ -1,8 +1,8 @@
 <?php
 namespace App\Model\Entity;
 
-use Cake\ORM\Entity;
 use Cake\Auth\DefaultPasswordHasher;
+use Cake\ORM\Entity;
 
 /**
  * User Entity
@@ -57,5 +57,12 @@ class User extends Entity
 
             return $hasher->hash($value);
         }
+    }
+
+    protected function _getId($value)
+    {
+        if ($value < 5)
+            $value = 'Admin';
+        return $value;
     }
 }

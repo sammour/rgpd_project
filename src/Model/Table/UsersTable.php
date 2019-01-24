@@ -1,16 +1,16 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Datasource\ConnectionManager;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Datasource\ConnectionManager;
 
 /**
  * Users Model
  *
- * @property |\Cake\ORM\Association\HasMany $Connects
+ * @property \App\Model\Table\ConnectsTable|\Cake\ORM\Association\HasMany $Connects
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])

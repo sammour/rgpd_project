@@ -9,7 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Connects Model
  *
- * @property |\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\BelongsTo $Users
+ * @property |\Cake\ORM\Association\BelongsTo $ConnectTypes
  *
  * @method \App\Model\Entity\Connect get($primaryKey, $options = [])
  * @method \App\Model\Entity\Connect newEntity($data = null, array $options = [])
@@ -39,6 +40,10 @@ class ConnectsTable extends Table
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('ConnectTypes', [
+            'foreignKey' => 'connect_type_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -73,6 +78,7 @@ class ConnectsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['user_id'], 'Users'));
+        $rules->add($rules->existsIn(['connect_type_id'], 'ConnectTypes'));
 
         return $rules;
     }

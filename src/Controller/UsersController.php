@@ -95,7 +95,6 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-
         if ($id != $this->Auth->user('id')) {
             $this->Flash->error(__('Vous ne pouvez pas modifier ce profil car ce n\'est pas le votre.'));
             $this->redirect('/users');
@@ -107,6 +106,12 @@ class UsersController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
+
+                $logs = TableRegistry::get('Connects');
+                $new_log = $logs->newEntity();
+
+                $new_log->set('connexion_time', time());
+                $new_log->set('user_id', $this->Auth->user('id'));
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

@@ -4,16 +4,14 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Connect Entity
+ * ConnectType Entity
  *
  * @property int $id
- * @property \Cake\I18n\FrozenTime $connexion_time
- * @property int $user_id
- * @property int $connect_type_id
+ * @property string $name
  *
- * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Connect[] $connects
  */
-class Connect extends Entity
+class ConnectType extends Entity
 {
 
     /**
@@ -26,9 +24,7 @@ class Connect extends Entity
      * @var array
      */
     protected $_accessible = [
-        'connexion_time' => true,
-        'user_id' => true,
-        'connect_type_id' => true,
-        'user' => true
+        'name' => true,
+        'connects' => true
     ];
 }
