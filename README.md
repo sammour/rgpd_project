@@ -18,7 +18,7 @@ composer install
 ```
 
 Dans `config/app.php` pour trouver la configuration de la connexion à la base de données.
-Vous trouverez un paramètre database, il faut le compléter avec le nom de la base de donnée mysql qui va être utilisée, il faut donc la créer.
+Vous trouverez un paramètre database (`ctrl+F` : `cakeos`), il faut le compléter avec le nom de la base de donnée mysql qui va être utilisée, il faut donc la créer.
 
 Puis :
 
