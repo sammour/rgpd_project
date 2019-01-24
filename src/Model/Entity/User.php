@@ -59,10 +59,4 @@ class User extends Entity
         }
     }
 
-    protected function _getId($value)
-    {
-        if ($value < 5)
-            $value = 'Admin';
-        return $value;
-    }
 }
