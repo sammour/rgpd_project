@@ -40,7 +40,7 @@ class UsersController extends AppController
     {
 
         $users = $this->paginate($this->Users->find()->where(['role ' => $this->Auth->user('role')]));
-
+        $this->saveLog($this->Auth->user('id'), 4);
         $this->set('user_id', $this->Auth->user('id'));
         $this->set(compact('users'));
     }
@@ -107,13 +107,7 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
 
-                $logs = TableRegistry::get('Connects');
-                $new_log = $logs->newEntity();
-
-                $new_log->set('connexion_time', time());
-                $new_log->set('user_id', $this->Auth->user('id'));
-                $this->Flash->success(__('The user has been saved.'));
-
+                $this->saveLog($this->Auth->user('id'), 2);
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -172,21 +166,8 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-
-                $logs = TableRegistry::get('Connects');
-                $new_log = $logs->newEntity();
-
-                $new_log->set('connexion_time', time());
-                $new_log->set('user_id', $this->Auth->user('id'));
-
-                if ($logs->save($new_log)) {
-                    $this->Flash->success('Connexion réussie et loguée');
-                    return $this->redirect($this->Auth->redirectUrl());
-                }
-                else {
-                    $this->Flash->error('Connexion réussie mais pas loguée' . $new_log->get('connexion_time') . $new_log->get('user_id'));
-                    return $this->redirect($this->Auth->redirectUrl());
-                }
+                $this->saveLog($this->Auth->user('id'), 1);
+                return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error(__('Invalid username or password, try again'));
         }
@@ -225,6 +206,7 @@ class UsersController extends AppController
                 $timeout = time() + DAY;
                 if ($this->Users->updateAll(['passkey' => $passkey, 'timeout' => $timeout], ['id' => $user->id])){
                     $this->Flash->success($url);
+                    $this->saveLog($user->id, 3);
                     $this->redirect(['action' => 'login']);
                 } else {
                     $this->Flash->error('Error saving reset passkey/timeout');
@@ -264,5 +246,19 @@ class UsersController extends AppController
         } else {
             $this->redirect('/');
         }
+    }
+
+    /**
+     * @param $log_cat
+     */
+    protected function saveLog($user_id, $log_cat) {
+
+        $logs = TableRegistry::get('Connects');
+        $new_log = $logs->newEntity();
+        $new_log->set('connexion_time', time());
+        $new_log->set('connect_type_id', $log_cat);
+        $new_log->set('user_id', $user_id);
+        if (!$logs->save($new_log))
+            $this->Flash->error(__('Une erreur s\'est produite pendant l\'enregistrement du log..'));
     }
 }
