@@ -8,9 +8,9 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Modifier mes informations'), ['action' => 'edit', $user->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Se désinscrire'), ['action' => 'delete', $user->id], ['confirm' => __('Voulez vous vraiment vous désinscrire ?', $user->id)]) ?> </li>
-        <li><?= $this->Html->link(__('Liste des utilisateurs'), ['action' => 'all']) ?> </li>
+        <li><?= $this->Html->link(__('Modifier mes informations'), ['action' => 'edit', $user->id, '?' => ['token' => $token]]) ?> </li>
+        <li><?= $this->Form->postLink(__('Se désinscrire'), ['action' => 'delete', $user->id, '?' => ['token' => $token]], ['confirm' => __('Voulez vous vraiment vous désinscrire ?', $user->id)]) ?> </li>
+        <li><?= $this->Html->link(__('Liste des utilisateurs'), ['action' => 'all', '?' => ['token' => $token]]) ?> </li>
 
     </ul>
 </nav>
@@ -22,12 +22,12 @@
             <td><?= h($user->username) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($user->password) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($user->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Token') ?></th>
+            <td><?= $token ?></td>
         </tr>
     </table>
 </div>

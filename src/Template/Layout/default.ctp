@@ -49,14 +49,14 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <li class="name">
                     <h2><?php echo $this->Html->link(
                             'Mon compte',
-                            '/users/'
+                            '/users/?token=' . $token
                         );?>
                     </h2>
                 </li>
                 <li class="name">
                     <h2><?php echo $this->Html->link(
                             'Se déconnecter',
-                            '/users/logout'
+                            '/users/logout/?token=' . $token
                         );?>
                     </h2>
                 </li>

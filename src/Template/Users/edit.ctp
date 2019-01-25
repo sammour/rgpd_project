@@ -8,10 +8,10 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Mon compte'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Mon compte'), ['action' => 'index', '?' => ['token' => $token]]) ?></li>
         <li><?= $this->Form->postLink(
                 __('Se désinscrire'),
-                ['action' => 'delete', $user->id],
+                ['action' => 'delete', $user->id, '?' => ['token' => $token]],
                 ['confirm' => __('Voulez vous vraiment vous désinscrire ?', $user->id)]
             )
         ?></li>

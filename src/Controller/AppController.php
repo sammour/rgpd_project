@@ -15,7 +15,11 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Http\Exception\UnauthorizedException;
+use Cake\Utility\Security;
+use Firebase\JWT\JWT;
 
 /**
  * Application Controller
@@ -41,24 +45,27 @@ class AppController extends Controller
     {
         parent::initialize();
 
-        $this->loadComponent('Auth', [
-            'loginRedirect' => [
-                'controller' => 'Users',
-                'action' => 'index'
-            ],
-            'logoutRedirect' => [
-                'controller' => 'Pages',
-                'action' => 'display',
-                'home'
-            ]
-        ]);
-
         $this->loadComponent('RequestHandler', [
             'enableBeforeRedirect' => false,
         ]);
         $this->loadComponent('Flash');
 
         $this->loadModel('Users');
+        $this->loadComponent('Auth', ['storage'              => (Configure::read('debug') ? "Session" : "Memory"),
+            'authenticate'         => [
+                'Form'              => ['fields' => ['username' => 'username',
+                    'password' => 'password']],
+                'ADmad/JwtAuth.Jwt' => ['userModel'       => 'Users',
+                    'fields'          => ['username' => 'id'],
+                    'parameter'       => 'token',
+                    'queryDatasource' => TRUE],
+            ],
+            'unauthorizedRedirect' => FALSE,
+            'checkAuthIn'          => 'Controller.initialize',
+            'loginRedirect'        => FALSE,
+            'logoutRedirect'       => FALSE,
+            'loginAction'          => FALSE]);
+        $this->Auth->allow(['token', 'add', 'password', 'reset']);
 
         /*
          * Enable the following component for recommended CakePHP security settings.
@@ -76,6 +83,23 @@ class AppController extends Controller
     public function beforeRender(Event $event)
     {
         $this->set('userData', $this->Auth->user());
+        $this->set('token', $this->request->getQuery('page'));
+    }
+
+    public function token()
+    {
+        $user = $this->Auth->identify();
+        if (!$user) {
+            throw new UnauthorizedException('Invalid email or password');
+        }
+
+        $this->set(['success'    => TRUE,
+            'data'       => ['token' => $token = JWT::encode(['id'  => $user['id'],
+                'sub' => $user['id'],
+                'exp' => time() + 604800], Security::salt())],
+            '_serialize' => ['success',
+                'data']]);
+        $this->redirect(['controller' => 'Users', 'action' => 'index', '?' => ['token' => $token]]);
     }
 
 

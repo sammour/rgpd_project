@@ -9,9 +9,9 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <?php if ($can_modify) : ?>
-        <li><?= $this->Html->link(__('Modifier l\'utilisateur'), ['action' => 'edit', $user->id]) ?> </li>
+        <li><?= $this->Html->link(__('Modifier l\'utilisateur'), ['action' => 'edit', $user->id, '?' => ['token' => $token]]) ?> </li>
         <?php endif; /*<li><?= $this->Form->postLink(__('Supprimer l\'utilisateur'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> </li> */?>
-        <li><?= $this->Html->link(__('Liste des utilisateurs'), ['action' => 'all']) ?> </li>
+        <li><?= $this->Html->link(__('Liste des utilisateurs'), ['action' => 'all', '?' => ['token' => $token]]) ?> </li>
     </ul>
 </nav>
 <div class="users view large-9 medium-8 columns content">
@@ -20,10 +20,6 @@
         <tr>
             <th scope="row"><?= __('Email') ?></th>
             <td><?= h($user->username) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Password') ?></th>
-            <td><?= h($user->password) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>

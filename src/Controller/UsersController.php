@@ -108,7 +108,7 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
 
                 $this->saveLog($this->Auth->user('id'), 2);
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index', '?' => ['token' => $this->request->getQuery('token')]]);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
@@ -124,6 +124,11 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
+        if ($id != $this->Auth->user('id')) {
+            $this->Flash->error(__('Vous ne pouvez pas supprimer ce profil car ce n\'est pas le votre.'));
+            $this->redirect('/users');
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
         $logs = TableRegistry::get('Connects');
@@ -153,8 +158,7 @@ class UsersController extends AppController
         parent::beforeFilter($event);
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
-        // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow(['add', 'login', 'password', 'reset']);
+        // cause problems with normal functioning of AuthComponent
     }
 
     /**
@@ -179,6 +183,12 @@ class UsersController extends AppController
     public function logout()
     {
         return $this->redirect($this->Auth->logout());
+    }
+
+    public function beforeRender(Event $event)
+    {
+        $this->set('userData', $this->Auth->user());
+        $this->set('token', $this->request->getQuery('token'));
     }
 
     /**
@@ -207,7 +217,7 @@ class UsersController extends AppController
                 if ($this->Users->updateAll(['passkey' => $passkey, 'timeout' => $timeout], ['id' => $user->id])){
                     $this->Flash->success($url);
                     $this->saveLog($user->id, 3);
-                    $this->redirect(['action' => 'login']);
+                    $this->redirect('/');
                 } else {
                     $this->Flash->error('Error saving reset passkey/timeout');
                 }
@@ -239,7 +249,7 @@ class UsersController extends AppController
                 }
             } else {
                 $this->Flash->error('Le lien est expiré, merci de recommencer la procédure de réinitialisation du mot de passe');
-                $this->redirect(['action' => 'password']);
+                $this->redirect('/');
             }
             unset($user->password);
             $this->set(compact('user'));
